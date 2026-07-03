@@ -1,0 +1,302 @@
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: var(--nav-h);
+  overflow: hidden;
+}
+
+/* --- Fondos --- */
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+/* Capas de parallax: heredan el lienzo completo; el transform lo aplica framer-motion. */
+.hero__layer {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+.hero__aurora {
+  position: absolute;
+  inset: -12% 0 auto 0;
+  height: 82%;
+  opacity: 0.78;
+}
+
+/* Nebulosa: nubes luminosas que se elevan desde abajo (estilo "cosmic cliffs"),
+   todo en morados/magenta. Gradientes estáticos → coste de GPU casi nulo. */
+.hero__nebula {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(70% 55% at 18% 108%, rgba(192, 38, 211, 0.34), transparent 68%),
+    radial-gradient(65% 55% at 62% 112%, rgba(124, 58, 237, 0.34), transparent 66%),
+    radial-gradient(52% 46% at 88% 116%, rgba(99, 102, 241, 0.3), transparent 66%),
+    radial-gradient(95% 62% at 50% 128%, rgba(76, 29, 149, 0.6), transparent 72%);
+  -webkit-mask-image: linear-gradient(to top, #000 6%, rgba(0, 0, 0, 0.72) 34%, transparent 66%);
+  mask-image: linear-gradient(to top, #000 6%, rgba(0, 0, 0, 0.72) 34%, transparent 66%);
+  opacity: 0.9;
+}
+
+.hero__stars {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Estrellas grandes con destellos en cruz (diffraction spikes) */
+.hero__sparks {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.hero__spark {
+  position: absolute;
+  width: calc(var(--size) * 0.16);
+  height: calc(var(--size) * 0.16);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 7px 2px #fff, 0 0 16px 5px rgba(216, 180, 254, 0.85);
+  transform: translate(-50%, -50%);
+  animation: spark-twinkle 4.5s ease-in-out infinite;
+  animation-delay: calc(var(--delay) * -1);
+}
+.hero__spark::before,
+.hero__spark::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.hero__spark::before {
+  width: var(--size);
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95) 46%, rgba(240, 171, 252, 0.95) 50%, rgba(255, 255, 255, 0.95) 54%, transparent);
+}
+.hero__spark::after {
+  width: 1.5px;
+  height: var(--size);
+  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.95) 46%, rgba(240, 171, 252, 0.95) 50%, rgba(255, 255, 255, 0.95) 54%, transparent);
+}
+@keyframes spark-twinkle {
+  0%, 100% { opacity: 0.35; transform: translate(-50%, -50%) scale(0.85); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.12); }
+}
+
+.hero__blob-1 {
+  width: 460px;
+  height: 460px;
+  background: rgba(176, 38, 255, 0.5);
+  top: -120px;
+  right: -80px;
+}
+.hero__blob-2 {
+  width: 380px;
+  height: 380px;
+  background: rgba(99, 102, 241, 0.42);
+  bottom: 40px;
+  left: -100px;
+  animation-delay: -6s;
+}
+.hero__blob-3 {
+  width: 420px;
+  height: 420px;
+  background: rgba(217, 70, 239, 0.28);
+  bottom: -140px;
+  left: 42%;
+  animation-delay: -11s;
+}
+.hero::after {
+  /* viñeta inferior para fundir con el resto */
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 220px;
+  background: linear-gradient(to top, var(--bg-850), transparent);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* --- Contenido --- */
+.hero__inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding-block: var(--space-12);
+}
+
+.hero__status {
+  color: var(--success);
+}
+.hero__status::before { display: none; }
+
+.hero__greet {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  color: var(--purple-soft);
+}
+.hero__greet svg { color: var(--neon-pink); }
+
+/* Bloque del nombre: aura radial detrás para darle profundidad "espacial". */
+.hero__name-wrap {
+  position: relative;
+  isolation: isolate;
+}
+.hero__name-wrap::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: -6%;
+  top: 50%;
+  width: 62%;
+  height: 150%;
+  transform: translateY(-50%);
+  background: radial-gradient(ellipse at center, rgba(176, 38, 255, 0.32), transparent 68%);
+  filter: blur(28px);
+  pointer-events: none;
+}
+
+.hero__name {
+  font-size: clamp(2.8rem, 9.4vw, 6.4rem);
+  font-weight: 800;
+  line-height: 0.96;
+  letter-spacing: -0.045em;
+  color: var(--white);
+  text-shadow: 0 0 54px rgba(176, 38, 255, 0.4);
+  max-width: 16ch;
+}
+.hero__name .gradient-text {
+  text-shadow: none;
+}
+
+.hero__role {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 3.2vw, 1.9rem);
+  font-weight: 700;
+  min-height: 2.4em;
+}
+.hero__role-prefix { color: var(--neon-cyan); font-size: 0.8em; }
+
+.hero__tagline {
+  max-width: 52ch;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.hero__socials {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+.hero__social {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: var(--r-md);
+  color: var(--muted);
+  border: 1px solid var(--border);
+  background: rgba(168, 85, 247, 0.06);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s var(--ease-spring);
+}
+.hero__social:hover {
+  color: #fff;
+  border-color: var(--accent);
+  box-shadow: 0 0 22px -2px var(--accent);
+  transform: translateY(-4px) scale(1.05);
+}
+
+/* --- Stats --- */
+.hero__stats {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  gap: clamp(20px, 5vw, 56px);
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--hairline);
+  width: 100%;
+}
+.hero__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.hero__stat-value {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  font-weight: 800;
+  line-height: 1;
+  background: var(--grad-brand-soft);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero__stat-label {
+  font-size: 0.8rem;
+  color: var(--muted-2);
+  letter-spacing: 0.02em;
+}
+
+/* --- Marquee inferior --- */
+.hero__marquee {
+  position: relative;
+  z-index: 2;
+  padding-block: var(--space-6);
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+  background: rgba(10, 5, 18, 0.4);
+}
+
+/* --- Indicador de scroll --- */
+.hero__scroll {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.hero__scroll svg { animation: scroll-hint 1.8s ease-in-out infinite; }
+
+@media (max-width: 620px) {
+  .hero__stats { grid-template-columns: repeat(2, 1fr); gap: var(--space-6); }
+  /* Se conserva la cinta de tecnologías también en móvil (solo anima transform,
+     es muy liviana). Reducimos un poco su altura para que respire. */
+  .hero__marquee { padding-block: var(--space-4); }
+}

@@ -1,0 +1,118 @@
+.contact {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+.contact__aurora {
+  position: absolute;
+  inset: auto 0 -20% 0;
+  height: 70%;
+  opacity: 0.45;
+  pointer-events: none;
+}
+.contact__aurora::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, var(--bg-850) 80%);
+}
+
+.contact__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5, 20px);
+}
+
+.contact__title {
+  font-size: clamp(2.2rem, 6.5vw, 4.2rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--white);
+  max-width: 16ch;
+}
+
+.contact__lead p {
+  max-width: 56ch;
+  color: var(--muted);
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  line-height: 1.7;
+}
+
+.contact__cta { margin-top: var(--space-2); }
+.contact__cta .neon-btn { min-height: 56px; padding-inline: var(--space-8); font-size: 1rem; }
+
+/* Redes */
+.contact__socials {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+  width: 100%;
+  max-width: 720px;
+  margin-top: var(--space-8);
+}
+.contact__social {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-5, 20px);
+  text-align: left;
+}
+.contact__social-icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: var(--r-md);
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 32%, transparent);
+}
+.contact__social-text { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.contact__social-label {
+  font-family: var(--font-head);
+  font-weight: 700;
+  color: var(--white);
+}
+.contact__social-handle {
+  font-size: 0.82rem;
+  color: var(--muted-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.contact__social-arrow {
+  color: var(--muted-2);
+  transition: transform 0.3s var(--ease-out), color 0.3s var(--ease-out);
+}
+.contact__social:hover .contact__social-arrow {
+  transform: translate(3px, -3px);
+  color: var(--accent);
+}
+
+/* Datos directos */
+.contact__info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3) var(--space-6);
+  margin-top: var(--space-8);
+}
+.contact__info-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--muted);
+  transition: color 0.2s var(--ease-out);
+}
+a.contact__info-item:hover { color: var(--purple-soft); }
+.contact__info-item svg { color: var(--purple-soft); }
+
+@media (max-width: 600px) {
+  .contact__socials { grid-template-columns: 1fr; }
+}

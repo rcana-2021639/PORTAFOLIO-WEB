@@ -1,0 +1,17 @@
+.typewriter {
+  display: inline-flex;
+  align-items: center;
+  color: var(--purple-soft);
+  font-weight: 600;
+}
+
+.typewriter__caret {
+  display: inline-block;
+  width: 3px;
+  height: 1.05em;
+  margin-left: 4px;
+  border-radius: 2px;
+  background: var(--neon-pink);
+  box-shadow: 0 0 8px var(--neon-pink);
+  animation: caret-blink 1s steps(1) infinite;
+}

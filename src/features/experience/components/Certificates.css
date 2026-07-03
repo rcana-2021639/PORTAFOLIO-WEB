@@ -1,0 +1,188 @@
+.certs {
+  margin-top: clamp(48px, 7vw, 84px);
+}
+
+.certs__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+.certs__head-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-md);
+  color: var(--neon-pink);
+  background: rgba(255, 95, 225, 0.12);
+  border: 1px solid rgba(255, 95, 225, 0.3);
+  box-shadow: 0 0 18px -6px var(--neon-pink);
+}
+.certs__head-title {
+  font-size: clamp(1.3rem, 3vw, 1.7rem);
+  font-weight: 700;
+  color: var(--white);
+}
+.certs__head-hint {
+  font-size: 0.9rem;
+  color: var(--muted-2);
+}
+
+/* --- Cuadrícula de certificados --- */
+.certs__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-5, 20px);
+}
+
+.certs__card {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding: 0;
+  overflow: hidden;
+  background: var(--surface-solid);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  color: inherit;
+  cursor: pointer;
+  transition: transform 0.35s var(--ease-out), border-color 0.35s var(--ease-out),
+    box-shadow 0.35s var(--ease-out);
+}
+.certs__card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-strong);
+  box-shadow: 0 22px 50px -28px rgba(176, 38, 255, 0.7);
+}
+
+.certs__thumb {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: linear-gradient(140deg, rgba(124, 58, 237, 0.25), rgba(10, 5, 18, 0.2));
+}
+.certs__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s var(--ease-out);
+}
+.certs__card:hover .certs__thumb img {
+  transform: scale(1.06);
+}
+.certs__zoom {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(20, 11, 43, 0.7);
+  border: 1px solid var(--border-strong);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.3s var(--ease-out), transform 0.3s var(--ease-spring);
+}
+.certs__card:hover .certs__zoom {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.certs__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--space-4);
+}
+.certs__issuer {
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--purple-soft);
+}
+.certs__title {
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 0.98rem;
+  line-height: 1.3;
+  color: var(--white);
+}
+
+/* --- Visor (lightbox) --- */
+.certs__lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: clamp(16px, 5vw, 48px);
+  background: rgba(6, 3, 14, 0.86);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.certs__lightbox-inner {
+  position: relative;
+  max-width: min(960px, 100%);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-solid);
+  box-shadow: var(--glow-lg);
+}
+.certs__lightbox-inner img {
+  width: 100%;
+  max-height: 78vh;
+  object-fit: contain;
+  background: #0a0512;
+}
+.certs__caption {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--hairline);
+}
+.certs__caption-title {
+  font-family: var(--font-head);
+  font-weight: 700;
+  color: var(--white);
+}
+.certs__caption-sub {
+  font-size: 0.8rem;
+  color: var(--muted-2);
+}
+.certs__close {
+  position: absolute;
+  top: clamp(12px, 3vw, 24px);
+  right: clamp(12px, 3vw, 24px);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(20, 11, 43, 0.8);
+  border: 1px solid var(--border-strong);
+  transition: transform 0.25s var(--ease-spring), background 0.25s var(--ease-out);
+}
+.certs__close:hover {
+  background: rgba(217, 70, 239, 0.4);
+  transform: rotate(90deg);
+}
+
+@media (max-width: 940px) {
+  .certs__grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 460px) {
+  .certs__grid { grid-template-columns: 1fr; }
+}

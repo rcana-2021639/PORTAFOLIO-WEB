@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#130a28"/>
+      <stop offset="1" stop-color="#0a0512"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg3)"/>
+  <!-- terminal -->
+  <rect x="60" y="50" width="680" height="400" rx="16" fill="#0c0720" stroke="#7c3aed" stroke-opacity="0.3"/>
+  <rect x="60" y="50" width="680" height="40" rx="16" fill="#150b2b"/>
+  <circle cx="86" cy="70" r="6" fill="#fb7185"/>
+  <circle cx="108" cy="70" r="6" fill="#fbbf24"/>
+  <circle cx="130" cy="70" r="6" fill="#5ee4a8"/>
+  <text x="400" y="75" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="13" fill="#6b4ba8">auth-service — node</text>
+  <!-- código -->
+  <g font-family="'JetBrains Mono',monospace" font-size="15">
+    <text x="86" y="132" fill="#d946ef">POST</text><text x="140" y="132" fill="#ece8ff"> /api/auth/login</text>
+    <text x="86" y="166" fill="#6366f1">const</text><text x="148" y="166" fill="#ece8ff"> token = </text><text x="240" y="166" fill="#5ee4a8">signJWT</text><text x="316" y="166" fill="#ece8ff">(user);</text>
+    <text x="86" y="200" fill="#6366f1">if</text><text x="118" y="200" fill="#ece8ff"> (!valid) </text><text x="220" y="200" fill="#c084fc">throw</text><text x="282" y="200" fill="#ece8ff"> Unauthorized;</text>
+    <text x="86" y="234" fill="#a855f7">res</text><text x="118" y="234" fill="#ece8ff">.status(</text><text x="196" y="234" fill="#fbbf24">200</text><text x="232" y="234" fill="#ece8ff">).json({ token });</text>
+    <text x="86" y="280" fill="#8b7bb5">// middleware: helmet · cors · rate-limit</text>
+    <text x="86" y="312" fill="#22d3ee">✓ </text><text x="110" y="312" fill="#b9a9e0">200 OK</text><text x="220" y="312" fill="#6b4ba8">42ms</text>
+    <text x="86" y="344" fill="#22d3ee">✓ </text><text x="110" y="344" fill="#b9a9e0">JWT verificado</text>
+  </g>
+  <rect x="86" y="372" width="180" height="34" rx="10" fill="none" stroke="#d946ef" stroke-opacity="0.5"/>
+  <text x="176" y="394" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="13" fill="#d8b4fe">npm run dev ▸</text>
+</svg>

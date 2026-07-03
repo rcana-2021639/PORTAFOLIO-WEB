@@ -1,0 +1,79 @@
+/* ============================================================
+   ANIMATIONS — keyframes reutilizables del portafolio
+   ============================================================ */
+
+/* Desplazamiento del degradado en textos/bordes */
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Flotación suave (avatares, badges) */
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+/* Pulso de glow — anima opacidad/escala (compuesto en GPU) en vez del radio de
+   blur (que re-rasterizaba la capa cada frame). El desenfoque se fija en el elemento. */
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+/* Rotación para bordes cónicos */
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+
+/* Líneas de scan futuristas */
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+/* Glitch sutil del nombre */
+@keyframes glitch-shift {
+  0%, 92%, 100% { transform: translate(0); clip-path: inset(0 0 0 0); }
+  93% { transform: translate(-2px, 1px); clip-path: inset(20% 0 40% 0); }
+  95% { transform: translate(2px, -1px); clip-path: inset(60% 0 10% 0); }
+  97% { transform: translate(-1px, 1px); clip-path: inset(35% 0 35% 0); }
+}
+
+/* Parpadeo de cursor de texto */
+@keyframes caret-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Aparición con desenfoque */
+@keyframes fade-blur-in {
+  from { opacity: 0; transform: translateY(18px); filter: blur(8px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+/* Marquee horizontal (cinta de tecnologías) */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* Deriva lenta de blobs de fondo */
+@keyframes blob-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(40px, -30px) scale(1.08); }
+  66% { transform: translate(-30px, 24px) scale(0.96); }
+}
+
+/* Brillo deslizante (shimmer) sobre superficies */
+@keyframes shimmer {
+  from { background-position: -160% 0; }
+  to { background-position: 260% 0; }
+}
+
+/* Rebote del indicador de scroll */
+@keyframes scroll-hint {
+  0%, 100% { transform: translateY(0); opacity: 0.5; }
+  50% { transform: translateY(8px); opacity: 1; }
+}

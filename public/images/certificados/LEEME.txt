@@ -1,0 +1,16 @@
+CERTIFICADOS / DIPLOMAS
+=======================
+
+Coloca aquí las fotos o escaneos de tus certificados.
+
+Nombres de archivo que el portafolio ya está esperando:
+  - bases-de-datos.jpg      (Introducción a Bases de Datos — INTECAP)
+  - it-essentials.jpg       (IT Essentials — Cisco / Kinal)
+  - perito-informatica.jpg  (Diploma de Perito en Informática — Kinal)
+  - ccna.jpg                (Fundamentos de Redes — CCNA)
+
+Consejos:
+  - Usa .jpg o .png. Una imagen horizontal (apaisada) se ve mejor.
+  - Si quieres agregar o cambiar certificados, edita el arreglo
+    "certificates" en:  src/shared/data/experience.js
+  - Mientras un archivo no exista, se mostrará un marcador de posición.

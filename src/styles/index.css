@@ -1,0 +1,398 @@
+@import 'tailwindcss';
+@import './tokens.css';
+@import './animations.css';
+
+/* ============================================================
+   BASE
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--nav-h);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(1100px 700px at 80% -10%, rgba(124, 58, 237, 0.18), transparent 60%),
+    radial-gradient(900px 600px at 0% 10%, rgba(217, 70, 239, 0.12), transparent 55%),
+    radial-gradient(1200px 900px at 50% 120%, rgba(99, 102, 241, 0.14), transparent 60%),
+    var(--bg-850);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.65;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  line-height: 1.05;
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+p { margin: 0; }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+button { font-family: inherit; cursor: pointer; }
+ul { margin: 0; padding: 0; list-style: none; }
+
+::selection {
+  background: rgba(217, 70, 239, 0.35);
+  color: #fff;
+}
+
+/* Scrollbar neón */
+::-webkit-scrollbar { width: 11px; }
+::-webkit-scrollbar-track { background: var(--bg-900); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--purple), var(--magenta));
+  border-radius: var(--r-pill);
+  border: 2px solid var(--bg-900);
+}
+::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, var(--purple-soft), var(--neon-pink)); }
+
+:focus-visible {
+  outline: 2px solid var(--purple-soft);
+  outline-offset: 3px;
+  border-radius: var(--r-sm);
+}
+
+/* ============================================================
+   LAYOUT HELPERS
+   ============================================================ */
+.container {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: clamp(20px, 5vw, 40px);
+}
+
+.section {
+  position: relative;
+  padding-block: clamp(72px, 11vw, 140px);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--purple-soft);
+}
+.eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--purple-soft));
+}
+
+/* ============================================================
+   TIPOGRAFÍA — utilidades de color/efecto
+   ============================================================ */
+.gradient-text {
+  background: linear-gradient(120deg, var(--purple-soft) 0%, var(--neon-pink) 40%, var(--neon-cyan) 100%);
+  background-size: 220% 220%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: gradient-shift 7s ease infinite;
+}
+/* Salvaguarda: si el navegador no soporta background-clip:text, no dejamos el
+   texto invisible — mostramos un color sólido en su lugar. */
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .gradient-text {
+    -webkit-text-fill-color: currentColor;
+    color: var(--purple-soft);
+  }
+}
+
+.glow-text { text-shadow: var(--glow-text); }
+
+.muted { color: var(--muted); }
+.faint { color: var(--faint); }
+.mono { font-family: var(--font-mono); }
+
+/* ============================================================
+   GLASS / SUPERFICIES
+   ============================================================ */
+.glass {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+}
+
+.neon-card {
+  position: relative;
+  background:
+    linear-gradient(165deg, rgba(124, 58, 237, 0.14), rgba(10, 5, 18, 0.02)),
+    var(--surface-solid);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: var(--space-6);
+  overflow: hidden;
+  transition: transform 0.4s var(--ease-out), border-color 0.4s var(--ease-out),
+    box-shadow 0.4s var(--ease-out);
+}
+.neon-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(140deg, rgba(192, 132, 252, 0.5), transparent 40%, transparent 60%, rgba(217, 70, 239, 0.4));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out);
+  pointer-events: none;
+}
+.neon-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: 0 22px 60px -28px rgba(176, 38, 255, 0.65);
+  transform: translateY(-4px);
+}
+.neon-card:hover::before { opacity: 1; }
+
+/* Borde cónico giratorio para cards destacadas */
+.conic-border {
+  position: relative;
+  border-radius: var(--r-lg);
+  isolation: isolate;
+}
+.conic-border::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  background: conic-gradient(from 0deg, transparent 0deg, var(--purple) 70deg, var(--neon-pink) 140deg, transparent 200deg, transparent 360deg);
+  animation: spin-slow 6s linear infinite;
+  opacity: 0.65;
+}
+
+/* ============================================================
+   LOGO CÓSMICO (marca "RC") — planeta con anillo/órbita
+   Usado en el navbar y en el pie. Tamaño con --logo-size.
+   ============================================================ */
+.cosmic-logo {
+  --logo-size: 44px;
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: var(--logo-size);
+  height: var(--logo-size);
+  border-radius: 50%;
+  color: #fff;
+  background: radial-gradient(circle at 32% 26%, #f2e9ff 0%, #c084fc 20%, #a855f7 46%, #7c3aed 70%, #3b1178 100%);
+  box-shadow:
+    0 6px 20px -6px rgba(176, 38, 255, 0.9),
+    inset 0 2px 6px rgba(255, 255, 255, 0.45),
+    inset 0 -7px 14px rgba(59, 17, 120, 0.7);
+  transition: transform 0.35s var(--ease-spring), box-shadow 0.35s var(--ease-out);
+}
+.cosmic-logo__label {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: calc(var(--logo-size) * 0.4);
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 3px rgba(30, 0, 60, 0.55);
+}
+/* Anillo/órbita que gira, con una estrellita anclada que orbita con él. */
+.cosmic-logo__orbit {
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1px solid rgba(216, 180, 254, 0.5);
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  animation: spin-slow 9s linear infinite;
+  pointer-events: none;
+}
+.cosmic-logo__orbit::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  margin-left: -2.5px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 8px 2px var(--magenta);
+}
+.cosmic-logo:hover {
+  transform: translateY(-1px) scale(1.05);
+  box-shadow:
+    0 10px 26px -6px rgba(217, 70, 239, 0.95),
+    inset 0 2px 6px rgba(255, 255, 255, 0.5),
+    inset 0 -7px 14px rgba(59, 17, 120, 0.7);
+}
+
+/* ============================================================
+   BOTONES
+   ============================================================ */
+.neon-btn {
+  --btn-grad: var(--grad-brand);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 50px;
+  padding: 0 var(--space-6);
+  overflow: hidden;
+  font-family: var(--font-head);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #fff;
+  border: none;
+  border-radius: var(--r-pill);
+  background: var(--btn-grad);
+  background-size: 180% 180%;
+  box-shadow: 0 10px 30px -10px rgba(176, 38, 255, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: transform 0.25s var(--ease-spring), box-shadow 0.3s var(--ease-out), background-position 0.5s var(--ease-out);
+}
+/* Destello que barre el botón al pasar el cursor (solo transform → compuesto en GPU) */
+.neon-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 35%, rgba(255, 255, 255, 0.4) 50%, transparent 65%);
+  transform: translateX(-130%);
+  transition: transform 0.6s var(--ease-out);
+  pointer-events: none;
+}
+.neon-btn:hover::after { transform: translateX(130%); }
+.neon-btn > * { position: relative; z-index: 1; }
+.neon-btn:hover {
+  background-position: 100% 50%;
+  box-shadow: 0 16px 40px -10px rgba(217, 70, 239, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transform: translateY(-2px);
+}
+.neon-btn:active { transform: translateY(0) scale(0.98); }
+
+.neon-btn.ghost {
+  background: rgba(168, 85, 247, 0.08);
+  border: 1px solid var(--border-strong);
+  color: var(--lilac);
+  box-shadow: none;
+}
+.neon-btn.ghost:hover {
+  background: rgba(168, 85, 247, 0.16);
+  box-shadow: var(--glow-sm);
+  color: #fff;
+}
+
+/* ============================================================
+   CHIPS / PILLS / DOTS
+   ============================================================ */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 6px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--lilac);
+  background: rgba(168, 85, 247, 0.1);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  transition: all 0.25s var(--ease-out);
+}
+.chip:hover {
+  color: #fff;
+  border-color: var(--border-strong);
+  background: rgba(217, 70, 239, 0.16);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 10px var(--success);
+}
+
+/* ============================================================
+   FONDOS DECORATIVOS
+   ============================================================ */
+.grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(168, 85, 247, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168, 85, 247, 0.07) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+  pointer-events: none;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+  pointer-events: none;
+  /* Promueve la capa desenfocada para que el blur(80px) se rasterice una sola vez
+     y el blob-drift solo se componga en GPU (sin repintar el desenfoque cada frame). */
+  will-change: transform;
+  animation: blob-drift 18s ease-in-out infinite;
+}
+/* Blob movido por parallax de scroll: el transform lo controla framer-motion,
+   así que desactivamos la animación de deriva para que no lo sobrescriba. */
+.blob.is-parallax { animation: none; }
+
+/* ============================================================
+   MÓVIL — aligerar desenfoques costosos (sin cambiar el aspecto)
+   El blur de fondo (backdrop-filter) y el de los blobs son lo más caro al
+   hacer scroll en teléfonos; aquí se reducen sin alterar el diseño.
+   ============================================================ */
+@media (max-width: 768px) {
+  .blob { filter: blur(50px); }
+  .glass {
+    backdrop-filter: blur(10px) saturate(130%);
+    -webkit-backdrop-filter: blur(10px) saturate(130%);
+  }
+}
+
+/* ============================================================
+   ACCESIBILIDAD — reduce-motion
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

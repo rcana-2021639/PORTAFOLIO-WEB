@@ -1,0 +1,23 @@
+.cursor-glow {
+  position: fixed;
+  inset: 0;
+  z-index: -1; /* detrás del contenido: brilla a través de los fondos transparentes */
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-out, ease);
+  background: radial-gradient(
+    320px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(176, 38, 255, 0.10),
+    rgba(217, 70, 239, 0.05) 40%,
+    transparent 65%
+  );
+  display: none; /* solo se activa en punteros finos */
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cursor-glow { display: block; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor-glow { display: none; }
+}
