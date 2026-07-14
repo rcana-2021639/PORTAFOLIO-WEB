@@ -1,0 +1,14 @@
+/* Fondo global que evoluciona con el scroll. Fijo detrás de todo el contenido. */
+.scene {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--bg-850);
+  overflow: hidden;
+}
+.scene__layer {
+  position: absolute;
+  inset: 0;
+  will-change: opacity;
+}

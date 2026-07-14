@@ -1,3 +1,5 @@
+import { createElement, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import SectionHeading from '../../../shared/components/SectionHeading';
 import Reveal from '../../../shared/components/Reveal';
 import Parallax from '../../../shared/components/Parallax';
@@ -7,53 +9,88 @@ import { skillGroups } from '../../../shared/data/skills';
 import { getIcon } from '../../../shared/components/iconMap';
 import './Skills.css';
 
-const Skills = () => (
-  <section id="skills" className="section skills">
-    <Parallax as="span" speed={70} className="blob skills__blob is-parallax" aria-hidden="true" />
-    <div className="container">
-      <SectionHeading
-        index="02 /"
-        eyebrow="Habilidades"
-        title="Diseño +"
-        highlight="stack completo"
-        subtitle="Mi fuerte es el diseño de interfaces y la experiencia de usuario, pero me muevo en toda la pila: frontend, backend, bases de datos y las herramientas para llevar un producto de la idea al deploy."
-      />
+const Skills = () => {
+  const [activeId, setActiveId] = useState(skillGroups[0].id);
+  const active = skillGroups.find((g) => g.id === activeId) ?? skillGroups[0];
 
-      <div className="skills__grid">
-        {skillGroups.map((group, gi) => {
-          const Icon = getIcon(group.icon);
-          return (
-            <Reveal key={group.id} direction="up" delay={0.08 * gi} className="skills__cell">
-              <TiltCard className="skills__card" max={7} glare={false}>
-                <header className="skills__card-head">
-                  <span className="skills__icon" style={{ '--accent': group.accent }}>
-                    <Icon size={22} />
-                  </span>
-                  <div>
-                    <h3 className="skills__card-title">{group.title}</h3>
-                    <p className="skills__card-blurb">{group.blurb}</p>
-                  </div>
-                </header>
+  return (
+    <section id="skills" className="section skills">
+      <Parallax as="span" speed={70} className="blob skills__blob is-parallax" aria-hidden="true" />
+      <div className="container">
+        <SectionHeading
+          index="02 /"
+          eyebrow="Habilidades"
+          title="Diseño +"
+          highlight="stack completo"
+          subtitle="Mi fuerte es el diseño de interfaces y la experiencia de usuario, pero me muevo en toda la pila: frontend, backend, bases de datos y las herramientas para llevar un producto de la idea al deploy."
+        />
 
-                <div className="skills__bars">
-                  {group.skills.map((skill, si) => (
-                    <SkillBar
-                      key={skill.name}
-                      name={skill.name}
-                      level={skill.level}
-                      accent={group.accent}
-                      delay={si * 0.06}
-                      inProgress={skill.inProgress}
-                    />
-                  ))}
+        {/* Filtro por categorías */}
+        <Reveal direction="up" className="skills__tabs" role="tablist" aria-label="Categorías de habilidades">
+          {skillGroups.map((group) => {
+            const Icon = getIcon(group.icon);
+            const isActive = group.id === activeId;
+            return (
+              <button
+                key={group.id}
+                role="tab"
+                aria-selected={isActive}
+                className={`skills__tab${isActive ? ' is-active' : ''}`}
+                style={{ '--accent': group.accent }}
+                onClick={() => setActiveId(group.id)}
+              >
+                {isActive && (
+                  <motion.span layoutId="skills-tab-bg" className="skills__tab-bg" transition={{ type: 'spring', stiffness: 380, damping: 32 }} />
+                )}
+                <Icon size={17} />
+                <span>{group.title}</span>
+              </button>
+            );
+          })}
+        </Reveal>
+
+        {/* Panel de la categoría activa */}
+        <TiltCard className="skills__panel" max={4} glare>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={active.id}
+              className="skills__panel-inner"
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -14 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <header className="skills__panel-head">
+                <span className="skills__icon" style={{ '--accent': active.accent }}>
+                  {createElement(getIcon(active.icon), { size: 24 })}
+                </span>
+                <div>
+                  <h3 className="skills__panel-title">{active.title}</h3>
+                  <p className="skills__panel-blurb">{active.blurb}</p>
                 </div>
-              </TiltCard>
-            </Reveal>
-          );
-        })}
+                <span className="skills__panel-count mono" style={{ '--accent': active.accent }}>
+                  {active.skills.length} skills
+                </span>
+              </header>
+
+              <div className="skills__bars">
+                {active.skills.map((skill, si) => (
+                  <SkillBar
+                    key={skill.name}
+                    name={skill.name}
+                    level={skill.level}
+                    accent={active.accent}
+                    delay={si * 0.05}
+                    inProgress={skill.inProgress}
+                  />
+                ))}
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </TiltCard>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default Skills;

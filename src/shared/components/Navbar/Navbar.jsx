@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { FileDown, Menu, X } from 'lucide-react';
 import { sections } from '../../data/nav';
 import { profile } from '../../data/profile';
 import { useScrollSpy } from '../../hooks/useScrollSpy';
@@ -71,7 +71,8 @@ const Navbar = () => {
         </nav>
 
         <a className="navbar__cta neon-btn" href={profile.cvUrl} download>
-          Descargar CV
+          <FileDown size={17} strokeWidth={2.2} />
+          <span>Descargar CV</span>
         </a>
 
         <button
@@ -112,7 +113,8 @@ const Navbar = () => {
               </motion.button>
             ))}
             <a className="navbar__mobile-cta neon-btn" href={profile.cvUrl} download onClick={() => setOpen(false)}>
-              Descargar CV
+              <FileDown size={18} strokeWidth={2.2} />
+              <span>Descargar CV</span>
             </a>
           </motion.nav>
         )}
