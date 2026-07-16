@@ -7,13 +7,11 @@ import {
   useSpring,
   useTransform,
 } from 'framer-motion';
-import { ArrowDown, FileDown, FolderGit2, Sparkles } from 'lucide-react';
+import { ArrowDown, FileDown, FolderGit2 } from 'lucide-react';
 import AnimatedTitle from '../../../shared/components/AnimatedTitle';
 import Typewriter from '../../../shared/components/Typewriter';
 import NeonButton from '../../../shared/components/NeonButton';
 import MagneticButton from '../../../shared/components/MagneticButton';
-import Counter from '../../../shared/components/Counter';
-import TiltCard from '../../../shared/components/TiltCard';
 import Particles from '../../../shared/components/reactbits/Particles/Particles';
 import LogoLoop from '../../../shared/components/reactbits/LogoLoop/LogoLoop';
 import Folder from '../../../shared/components/reactbits/Folder/Folder';
@@ -25,7 +23,8 @@ import { useReducedMotion } from '../../../shared/hooks/useReducedMotion';
 import { scrollToSection } from '../../../shared/utils/scroll';
 import './Hero.css';
 
-const PARTICLE_COLORS = ['#c084fc', '#a855f7', '#d946ef', '#7c3aed', '#e9d5ff'];
+// Varias tonalidades de morado para que el campo no se vea de un solo tono.
+const PARTICLE_COLORS = ['#a855f7', '#c084fc', '#8b5cf6', '#d946ef', '#6366f1', '#e879f9'];
 
 const Hero = () => {
   const reduced = useReducedMotion();
@@ -47,13 +46,6 @@ const Hero = () => {
   const spotY = useTransform(smy, [0, 1], ['12%', '78%']);
   const spotlight = useMotionTemplate`radial-gradient(560px circle at ${spotX} ${spotY}, rgba(176,38,255,0.28), transparent 60%)`;
 
-  // Capas flotantes (tarjeta + badges) a distinta profundidad.
-  const cardX = useTransform(smx, [0, 1], [22, -22]);
-  const cardY = useTransform(smy, [0, 1], [18, -18]);
-  const badgeX = useTransform(smx, [0, 1], [-30, 30]);
-  const badgeY = useTransform(smy, [0, 1], [-22, 22]);
-  const badgeXNeg = useTransform(badgeX, (v) => -v);
-
   const handleMouse = (e) => {
     if (reduced || !heroRef.current) return;
     const r = heroRef.current.getBoundingClientRect();
@@ -72,14 +64,14 @@ const Hero = () => {
         <div className="hero__particles">
           <Particles
             particleColors={PARTICLE_COLORS}
-            particleCount={reduced ? 120 : 420}
-            particleSpread={13}
-            speed={reduced ? 0 : 0.09}
-            particleBaseSize={92}
-            sizeRandomness={1.1}
+            particleCount={reduced ? 120 : 600}
+            particleSpread={10}
+            speed={reduced ? 0 : 0.1}
+            particleBaseSize={100}
+            sizeRandomness={1}
             moveParticlesOnHover={!reduced}
             particleHoverFactor={1.4}
-            alphaParticles
+            alphaParticles={false}
             disableRotation={false}
             pixelRatio={Math.min(typeof window !== 'undefined' ? window.devicePixelRatio : 1, 2)}
           />
@@ -92,7 +84,7 @@ const Hero = () => {
         className="container hero__inner"
         style={reduced ? undefined : { y: contentY, opacity: contentOpacity }}
       >
-        {/* Columna izquierda — contenido editorial */}
+        {/* Contenido editorial — una sola columna centrada */}
         <div className="hero__lead">
           <motion.span
             className="eyebrow hero__status"
@@ -102,10 +94,6 @@ const Hero = () => {
           >
             <span className="dot" /> {profile.details.availability}
           </motion.span>
-
-          <p className="hero__greet">
-            <Sparkles size={16} /> Hola, soy
-          </p>
 
           <div className="hero__name-wrap">
             <AnimatedTitle as="h1" className="hero__name" delay={0.12}>
@@ -191,53 +179,12 @@ const Hero = () => {
             })}
           </motion.div>
         </div>
-
-        {/* Columna derecha — tarjeta de perfil 3D + badges flotantes */}
-        <motion.div className="hero__aside" style={reduced ? undefined : { x: cardX, y: cardY }}>
-          <TiltCard className="hero__card conic-border" max={10} glare>
-            <div className="hero__card-bar" aria-hidden="true">
-              <span /><span /><span />
-              <em className="mono">rhandy.cana</em>
-            </div>
-            <div className="hero__card-body">
-              <span className="cosmic-logo hero__card-avatar">
-                <span className="cosmic-logo__orbit" />
-                <span className="cosmic-logo__label">{profile.initials}</span>
-              </span>
-              <h2 className="hero__card-name">{profile.shortName}</h2>
-              <p className="hero__card-role">{profile.roleAccent}</p>
-              <ul className="hero__card-chips">
-                <li className="chip">UI / UX</li>
-                <li className="chip">Frontend</li>
-                <li className="chip">Full-Stack</li>
-              </ul>
-            </div>
-
-            {/* Stats dentro de la tarjeta — rejilla irregular */}
-            <ul className="hero__stats">
-              {profile.stats.map((stat, i) => (
-                <li key={stat.label} className={`hero__stat${i === 0 ? ' hero__stat--wide' : ''}`}>
-                  <strong className="hero__stat-value">
-                    <Counter to={stat.value} suffix={stat.suffix} />
-                  </strong>
-                  <span className="hero__stat-label">{stat.label}</span>
-                </li>
-              ))}
-            </ul>
-          </TiltCard>
-
-          {!reduced && (
-            <>
-              <motion.span className="hero__badge hero__badge--code mono" style={{ x: badgeX, y: badgeY }}>
-                &lt;/&gt;
-              </motion.span>
-              <motion.span className="hero__badge hero__badge--spark" style={{ x: badgeXNeg, y: badgeY }}>
-                <Sparkles size={18} />
-              </motion.span>
-            </>
-          )}
-        </motion.div>
       </motion.div>
+
+      <button className="hero__scroll" onClick={() => scrollToSection('sobre-mi')} aria-label="Bajar">
+        <span className="mono">scroll</span>
+        <ArrowDown size={16} />
+      </button>
 
       {/* Cinta de tecnologías — LogoLoop con logos de marca */}
       <div className="hero__marquee">
@@ -254,11 +201,6 @@ const Hero = () => {
           ariaLabel="Tecnologías que manejo"
         />
       </div>
-
-      <button className="hero__scroll" onClick={() => scrollToSection('sobre-mi')} aria-label="Bajar">
-        <span className="mono">scroll</span>
-        <ArrowDown size={16} />
-      </button>
     </section>
   );
 };

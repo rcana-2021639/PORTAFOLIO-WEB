@@ -1,0 +1,55 @@
+.curved-input {
+  position: relative;
+  display: block;
+  max-width: 100%;
+  margin: 0;
+}
+
+.curved-input__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* Anillo de foco alrededor de la barra (se ilumina al enfocar). */
+.curved-input__ring {
+  opacity: 0;
+  transition: opacity 0.3s var(--ease-out, ease);
+}
+.curved-input--focused .curved-input__ring {
+  opacity: 0.32;
+}
+
+/* Botón curvo */
+.curved-input__button {
+  cursor: pointer;
+}
+.curved-input__button-bg {
+  transition: filter 0.25s var(--ease-out, ease), opacity 0.25s var(--ease-out, ease);
+}
+.curved-input__button:hover .curved-input__button-bg {
+  filter: brightness(1.12);
+}
+.curved-input__button:active .curved-input__button-bg {
+  opacity: 0.85;
+}
+
+/* Input nativo: enfocable y recibe teclado, pero invisible (el SVG dibuja el
+   texto y el caret). No captura clics para que el <svg> coloque el caret. */
+.curved-input__native {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  color: transparent;
+  caret-color: transparent;
+  opacity: 0;
+  outline: none;
+  pointer-events: none;
+}

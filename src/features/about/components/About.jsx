@@ -12,17 +12,19 @@ import {
 } from 'lucide-react';
 import SectionHeading from '../../../shared/components/SectionHeading';
 import Reveal from '../../../shared/components/Reveal';
+import SpotlightCard from '../../../shared/components/SpotlightCard';
 import { profile } from '../../../shared/data/profile';
 import './About.css';
 
+// Cada tarjeta lleva su propio matiz morado para que la rejilla no se vea plana.
 const detailItems = [
-  { icon: CalendarDays, label: 'Edad', value: profile.details.age },
-  { icon: MapPin, label: 'Ubicación', value: profile.details.location },
-  { icon: Mail, label: 'Email', value: profile.details.email },
-  { icon: Phone, label: 'Teléfono', value: profile.details.phone },
-  { icon: Clock3, label: 'Experiencia', value: profile.details.experience },
-  { icon: GraduationCap, label: 'Formación', value: profile.details.studying },
-  { icon: Languages, label: 'Idiomas', value: profile.details.languages },
+  { icon: CalendarDays, label: 'Edad', value: profile.details.age, accent: 'var(--grape)' },
+  { icon: MapPin, label: 'Ubicación', value: profile.details.location, accent: 'var(--indigo)' },
+  { icon: Mail, label: 'Email', value: profile.details.email, accent: 'var(--purple)' },
+  { icon: Phone, label: 'Teléfono', value: profile.details.phone, accent: 'var(--orchid)' },
+  { icon: Clock3, label: 'Experiencia', value: profile.details.experience, accent: 'var(--magenta)' },
+  { icon: GraduationCap, label: 'Formación', value: profile.details.studying, accent: 'var(--violet)' },
+  { icon: Languages, label: 'Idiomas', value: profile.details.languages, accent: 'var(--fuchsia)' },
 ];
 
 const About = () => (
@@ -101,17 +103,14 @@ const About = () => (
       {/* Datos generales */}
       <div className="about__details">
         {detailItems.map((item, i) => (
-          <Reveal
-            key={item.label}
-            direction="up"
-            delay={0.04 * i}
-            className="about__detail neon-card"
-          >
-            <span className="about__detail-icon">
-              <item.icon size={18} />
-            </span>
-            <span className="about__detail-label">{item.label}</span>
-            <strong className="about__detail-value">{item.value}</strong>
+          <Reveal key={item.label} direction="up" delay={0.04 * i}>
+            <SpotlightCard className="about__detail" accent={item.accent}>
+              <span className="about__detail-icon">
+                <item.icon size={18} />
+              </span>
+              <span className="about__detail-label">{item.label}</span>
+              <strong className="about__detail-value">{item.value}</strong>
+            </SpotlightCard>
           </Reveal>
         ))}
       </div>

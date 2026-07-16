@@ -6,6 +6,7 @@ import CursorGlow from '../shared/components/CursorGlow/CursorGlow';
 import ScrollProgress from '../shared/components/ScrollProgress/ScrollProgress';
 import SceneBackground from '../shared/components/SceneBackground/SceneBackground';
 import ClickSpark from '../shared/components/reactbits/ClickSpark/ClickSpark';
+import CurvedLoop from '../shared/components/reactbits/CurvedLoop/CurvedLoop';
 import Hero from '../features/hero/components/Hero';
 import About from '../features/about/components/About';
 import Skills from '../features/skills/components/Skills';
@@ -26,6 +27,19 @@ function App() {
           <Hero />
           <About />
           <Skills />
+          <div
+            id="trayectoria-divider"
+            className="section-divider"
+            style={{ '--section-accent': 'var(--indigo)' }}
+            aria-hidden="true"
+          >
+            <CurvedLoop
+              marqueeText="Rhandy Caná ✦ Frontend ✦ UI · UX ✦ Full-Stack ✦"
+              speed={1.4}
+              curveAmount={140}
+              interactive
+            />
+          </div>
           <Experience />
           <Gallery />
           <Projects />

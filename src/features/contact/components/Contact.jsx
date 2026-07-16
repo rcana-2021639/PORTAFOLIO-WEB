@@ -4,9 +4,19 @@ import Reveal from '../../../shared/components/Reveal';
 import NeonButton from '../../../shared/components/NeonButton';
 import MagneticButton from '../../../shared/components/MagneticButton';
 import Aurora from '../../../shared/components/Aurora/Aurora';
+import CurvedInput from '../../../shared/components/reactbits/CurvedInput/CurvedInput';
 import { socials, contactInfo } from '../../../shared/data/socials';
 import { getIcon } from '../../../shared/components/iconMap';
 import './Contact.css';
+
+const handleQuickMail = (value) => {
+  const email = (value || '').trim();
+  const subject = encodeURIComponent('Contacto desde el portafolio');
+  const body = encodeURIComponent(
+    email ? `¡Hola Rhandy! Me gustaría contactarte. Mi correo es ${email}.` : ''
+  );
+  window.location.href = `mailto:${contactInfo.email}?subject=${subject}&body=${body}`;
+};
 
 const Contact = () => (
   <section id="contacto" className="section contact">
@@ -36,6 +46,24 @@ const Contact = () => (
             Enviar un mensaje
           </NeonButton>
         </MagneticButton>
+      </Reveal>
+
+      {/* Captura rápida de correo — input curvo (React Bits) */}
+      <Reveal direction="up" delay={0.24} className="contact__curved">
+        <span className="contact__curved-hint mono">o déjame tu correo y te escribo</span>
+        <CurvedInput
+          theme="dark"
+          type="email"
+          placeholder="tu@correo.com"
+          buttonText="Escríbeme"
+          width="100%"
+          bend={26}
+          height={62}
+          buttonColor="#d946ef"
+          backgroundColor="#160d2c"
+          borderColor="#392e4e"
+          onSubmit={handleQuickMail}
+        />
       </Reveal>
 
       {/* Redes */}

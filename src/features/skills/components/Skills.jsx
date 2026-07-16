@@ -4,7 +4,7 @@ import SectionHeading from '../../../shared/components/SectionHeading';
 import Reveal from '../../../shared/components/Reveal';
 import Parallax from '../../../shared/components/Parallax';
 import TiltCard from '../../../shared/components/TiltCard';
-import SkillBar from '../../../shared/components/SkillBar';
+import SkillMeter from '../../../shared/components/SkillMeter';
 import { skillGroups } from '../../../shared/data/skills';
 import { getIcon } from '../../../shared/components/iconMap';
 import './Skills.css';
@@ -25,9 +25,9 @@ const Skills = () => {
           subtitle="Mi fuerte es el diseño de interfaces y la experiencia de usuario, pero me muevo en toda la pila: frontend, backend, bases de datos y las herramientas para llevar un producto de la idea al deploy."
         />
 
-        {/* Filtro por categorías */}
+        {/* Filtro por categorías — navegación dinámica */}
         <Reveal direction="up" className="skills__tabs" role="tablist" aria-label="Categorías de habilidades">
-          {skillGroups.map((group) => {
+          {skillGroups.map((group, gi) => {
             const Icon = getIcon(group.icon);
             const isActive = group.id === activeId;
             return (
@@ -40,10 +40,17 @@ const Skills = () => {
                 onClick={() => setActiveId(group.id)}
               >
                 {isActive && (
-                  <motion.span layoutId="skills-tab-bg" className="skills__tab-bg" transition={{ type: 'spring', stiffness: 380, damping: 32 }} />
+                  <motion.span
+                    layoutId="skills-tab-bg"
+                    className="skills__tab-bg"
+                    transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                  />
                 )}
-                <Icon size={17} />
-                <span>{group.title}</span>
+                <span className="skills__tab-icon">
+                  <Icon size={17} />
+                </span>
+                <span className="skills__tab-label">{group.title}</span>
+                <span className="skills__tab-num mono">{String(gi + 1).padStart(2, '0')}</span>
               </button>
             );
           })}
@@ -75,7 +82,7 @@ const Skills = () => {
 
               <div className="skills__bars">
                 {active.skills.map((skill, si) => (
-                  <SkillBar
+                  <SkillMeter
                     key={skill.name}
                     name={skill.name}
                     level={skill.level}

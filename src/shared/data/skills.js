@@ -87,10 +87,3 @@ export const skillGroups = [
     ],
   },
 ];
-
-// Cinta de tecnologías (marquee) — sección Hero/Skills
-export const techMarquee = [
-  'UI / UX', 'React', 'JavaScript', 'HTML5', 'CSS3', 'Tailwind',
-  'Java', 'Spring Boot', 'Node.js', 'MySQL', 'PostgreSQL', 'MongoDB',
-  'Docker', 'Git', 'Figma-style UI', 'Animación', 'Responsive',
-];

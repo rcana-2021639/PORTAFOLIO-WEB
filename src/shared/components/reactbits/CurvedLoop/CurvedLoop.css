@@ -1,0 +1,48 @@
+.curved-loop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.curved-loop__svg {
+  user-select: none;
+  width: 100%;
+  overflow: visible;
+  display: block;
+  aspect-ratio: 100 / 12;
+  font-size: 6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 1;
+  font-family: var(--font-display);
+}
+/* Texto con relleno morado (se ajusta por variante) */
+.curved-loop__text {
+  fill: var(--purple-soft);
+}
+
+/* Variante usada como divisor entre secciones */
+.section-divider {
+  position: relative;
+  padding-block: clamp(24px, 6vw, 60px);
+  overflow: hidden;
+}
+.section-divider::before,
+.section-divider::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+}
+.section-divider::before { top: 0; }
+.section-divider::after { bottom: 0; }
+.section-divider .curved-loop__text {
+  fill: color-mix(in srgb, var(--section-accent, var(--purple)) 88%, #fff);
+  opacity: 0.9;
+}
+
+@media (max-width: 720px) {
+  .curved-loop__svg { font-size: 3.4rem; }
+}

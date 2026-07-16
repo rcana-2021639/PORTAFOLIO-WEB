@@ -85,6 +85,20 @@ ul { margin: 0; padding: 0; list-style: none; }
   padding-block: clamp(72px, 11vw, 140px);
 }
 
+/* ------------------------------------------------------------
+   Acento por sección — cada zona toma un matiz morado distinto
+   (violeta / índigo / uva / magenta / lila / orquídea) para que
+   la página no se vea de un solo tono. Se consumen con
+   var(--section-accent) dentro de cada feature.
+   ------------------------------------------------------------ */
+#inicio      { --section-accent: var(--purple);     --section-accent-2: var(--magenta); }
+#sobre-mi    { --section-accent: var(--grape);       --section-accent-2: var(--indigo); }
+#skills      { --section-accent: var(--orchid);      --section-accent-2: var(--purple); }
+#trayectoria { --section-accent: var(--indigo);      --section-accent-2: var(--grape); }
+#galeria     { --section-accent: var(--fuchsia);     --section-accent-2: var(--purple-soft); }
+#proyectos   { --section-accent: var(--plum);        --section-accent-2: var(--neon-pink); }
+#contacto    { --section-accent: var(--magenta);     --section-accent-2: var(--indigo); }
+
 .eyebrow {
   display: inline-flex;
   align-items: center;
@@ -94,13 +108,13 @@ ul { margin: 0; padding: 0; list-style: none; }
   font-weight: 500;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--purple-soft);
+  color: color-mix(in srgb, var(--section-accent, var(--purple-soft)) 78%, var(--purple-soft));
 }
 .eyebrow::before {
   content: '';
   width: 28px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--purple-soft));
+  background: linear-gradient(90deg, transparent, var(--section-accent, var(--purple-soft)));
 }
 
 /* ============================================================

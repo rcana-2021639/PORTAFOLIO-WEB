@@ -1,0 +1,102 @@
+.skillmeter {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--r-md);
+  border: 1px solid transparent;
+  transition: border-color 0.35s var(--ease-out), background 0.35s var(--ease-out), transform 0.35s var(--ease-spring);
+}
+.skillmeter:hover {
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  transform: translateY(-2px);
+}
+
+/* --- Anillo --- */
+.skillmeter__ring {
+  position: relative;
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+}
+.skillmeter__svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg); /* el trazo empieza arriba */
+}
+.skillmeter__track-c {
+  fill: none;
+  stroke: rgba(168, 85, 247, 0.14);
+  stroke-width: 6;
+}
+.skillmeter__fill-c {
+  fill: none;
+  stroke-width: 6;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--accent) 70%, transparent));
+}
+.skillmeter__wip-c {
+  fill: none;
+  stroke-width: 6;
+  stroke-linecap: round;
+  transform-origin: 36px 36px;
+  animation: sm-spin 1.4s linear infinite;
+}
+
+.skillmeter__center {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+.skillmeter__pct {
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--white);
+}
+.skillmeter__wip-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+  animation: sm-pulse 1.3s ease-in-out infinite;
+}
+
+/* --- Meta (nombre + estado) --- */
+.skillmeter__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.skillmeter__name {
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--text);
+  line-height: 1.25;
+}
+.skillmeter__state {
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
+.skillmeter.is-wip .skillmeter__state {
+  color: color-mix(in srgb, var(--accent) 80%, var(--purple-soft));
+}
+
+@keyframes sm-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes sm-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.7); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skillmeter__wip-c { animation: none; }
+}
