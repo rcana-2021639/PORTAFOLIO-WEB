@@ -13,8 +13,17 @@ import {
 import SectionHeading from '../../../shared/components/SectionHeading';
 import Reveal from '../../../shared/components/Reveal';
 import SpotlightCard from '../../../shared/components/SpotlightCard';
+import TiltedCard from '../../../shared/components/reactbits/TiltedCard/TiltedCard';
 import { profile } from '../../../shared/data/profile';
 import './About.css';
+
+// Fallback mientras no exista la foto real.
+const handleAvatarError = (e) => {
+  if (!e.currentTarget.dataset.fallback) {
+    e.currentTarget.dataset.fallback = '1';
+    e.currentTarget.src = '/images/avatar.svg';
+  }
+};
 
 // Cada tarjeta lleva su propio matiz morado para que la rejilla no se vea plana.
 const detailItems = [
@@ -43,19 +52,22 @@ const About = () => (
         <Reveal direction="right" className="about__visual">
           <div className="about__avatar-wrap">
             <span className="about__avatar-glow" aria-hidden="true" />
-            <div className="about__avatar conic-border">
-              <img
-                src={profile.avatar}
-                alt={`Foto de ${profile.name}`}
-                onError={(e) => {
-                  // Fallback mientras no exista la foto real (avatar.jpg).
-                  if (!e.currentTarget.dataset.fallback) {
-                    e.currentTarget.dataset.fallback = '1';
-                    e.currentTarget.src = '/images/avatar.svg';
-                  }
-                }}
-              />
-            </div>
+            <TiltedCard
+              imageSrc={profile.avatar}
+              altText={`Foto de ${profile.name}`}
+              captionText={profile.shortName}
+              containerWidth="100%"
+              containerHeight="clamp(340px, 78vw, 420px)"
+              imageWidth="100%"
+              imageHeight="clamp(340px, 78vw, 420px)"
+              rotateAmplitude={12}
+              scaleOnHover={1.06}
+              showMobileWarning={false}
+              showTooltip
+              onImageError={handleAvatarError}
+              imageClassName="about__avatar-img"
+              imageStyle={{ objectPosition: 'center 28%', borderRadius: 'var(--r-xl)' }}
+            />
             <motion.span
               className="about__float-badge glass"
               animate={{ y: [0, -10, 0] }}

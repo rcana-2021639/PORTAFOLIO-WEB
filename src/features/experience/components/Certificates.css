@@ -37,7 +37,12 @@
   gap: var(--space-5, 20px);
 }
 
+/* El grid coloca envoltorios de Reveal; la tarjeta interactiva los llena. */
+.certs__cardwrap { display: flex; }
+
 .certs__card {
+  flex: 1;
+  width: 100%;
   display: flex;
   flex-direction: column;
   text-align: left;
@@ -48,13 +53,12 @@
   border-radius: var(--r-lg);
   color: inherit;
   cursor: pointer;
-  transition: transform 0.35s var(--ease-out), border-color 0.35s var(--ease-out),
-    box-shadow 0.35s var(--ease-out);
+  will-change: transform;
+  transition: border-color 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
 }
 .certs__card:hover {
-  transform: translateY(-4px);
   border-color: var(--border-strong);
-  box-shadow: 0 22px 50px -28px rgba(176, 38, 255, 0.7);
+  box-shadow: 0 26px 56px -28px color-mix(in srgb, var(--section-accent, var(--purple)) 85%, transparent);
 }
 
 .certs__thumb {
@@ -62,6 +66,7 @@
   display: block;
   aspect-ratio: 4 / 3;
   overflow: hidden;
+  transform-style: preserve-3d;
   background: linear-gradient(140deg, rgba(124, 58, 237, 0.25), rgba(10, 5, 18, 0.2));
 }
 .certs__thumb img {
@@ -73,8 +78,19 @@
 .certs__card:hover .certs__thumb img {
   transform: scale(1.06);
 }
+/* Barrido diagonal con el acento y brillo holográfico que sigue al cursor */
+.certs__sheen,
+.certs__glare {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
 .certs__zoom {
   position: absolute;
+  z-index: 3;
   top: 10px;
   right: 10px;
   display: grid;

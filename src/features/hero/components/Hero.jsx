@@ -96,12 +96,36 @@ const Hero = () => {
           </motion.span>
 
           <div className="hero__name-wrap">
-            <AnimatedTitle as="h1" className="hero__name" delay={0.12}>
-              <span className="hero__name-line">Rhandy</span>
-              <span className="hero__name-line">Estuardo</span>
-              <span className="hero__name-line gradient-text">Caná</span>
-              <span className="hero__name-line gradient-text">Subuyuj</span>
+            {/* Índice + regla: fija el eje y da estructura al lockup */}
+            <motion.span
+              className="hero__name-index"
+              aria-hidden="true"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.15, duration: 0.7 }}
+            >
+              <span className="hero__name-num mono">01</span>
+              <span className="hero__name-rule" />
+            </motion.span>
+
+            {/* Nombre y apellido al mismo tamaño, alineados al mismo eje */}
+            <AnimatedTitle
+              as="h1"
+              className="hero__name"
+              delay={0.12}
+              aria-label={`${profile.name}, ${profile.role}`}
+            >
+              <span className="hero__name-line">Rhandy Estuardo</span>
+              <span className="hero__name-line gradient-text">Caná Subuyuj</span>
             </AnimatedTitle>
+
+            <motion.span
+              className="hero__name-underline"
+              aria-hidden="true"
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ delay: 0.5, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            />
           </div>
 
           <div className="hero__role">

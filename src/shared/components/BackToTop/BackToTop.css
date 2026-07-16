@@ -1,8 +1,10 @@
 .back-to-top {
   position: fixed;
   right: clamp(16px, 4vw, 32px);
-  bottom: clamp(16px, 4vw, 32px);
-  z-index: 90;
+  /* Se eleva sobre la franja de desenfoque inferior (GradualBlur, z≈1100) para
+     que no quede tapado, y un poco más arriba para despejarlo del borde. */
+  bottom: clamp(24px, 5vw, 40px);
+  z-index: 1200;
   display: grid;
   place-items: center;
   width: 50px;

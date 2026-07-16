@@ -7,6 +7,7 @@ import ScrollProgress from '../shared/components/ScrollProgress/ScrollProgress';
 import SceneBackground from '../shared/components/SceneBackground/SceneBackground';
 import ClickSpark from '../shared/components/reactbits/ClickSpark/ClickSpark';
 import CurvedLoop from '../shared/components/reactbits/CurvedLoop/CurvedLoop';
+import GradualBlur from '../shared/components/reactbits/GradualBlur/GradualBlur';
 import Hero from '../features/hero/components/Hero';
 import About from '../features/about/components/About';
 import Skills from '../features/skills/components/Skills';
@@ -46,6 +47,17 @@ function App() {
           <Contact />
         </main>
         <Footer />
+        {/* Desenfoque progresivo fijo en el borde inferior — el contenido se
+            funde suavemente al hacer scroll (React Bits GradualBlur). */}
+        <GradualBlur
+          target="page"
+          position="bottom"
+          height="6rem"
+          strength={2}
+          divCount={5}
+          curve="bezier"
+          opacity={0.9}
+        />
         <BackToTop />
       </ClickSpark>
     </MotionConfig>

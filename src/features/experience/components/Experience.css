@@ -42,19 +42,43 @@
      el padding-left del timeline; así queda separado de la tarjeta. */
   left: clamp(-53px, -5.5vw, -43px);
   top: 4px;
+  z-index: 2;
   display: grid;
   place-items: center;
   width: clamp(30px, 5vw, 38px);
   height: clamp(30px, 5vw, 38px);
   border-radius: 50%;
   color: #fff;
-  background: var(--grad-brand);
+  background:
+    radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--node-accent, var(--purple)) 92%, #fff 8%), var(--node-accent, var(--purple)));
   border: 3px solid var(--bg-850);
-  box-shadow: var(--glow-sm);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--node-accent, var(--purple)) 55%, transparent),
+    0 0 18px -2px var(--node-accent, var(--purple));
   transform: translateX(-50%);
 }
+/* Halo que late para dar vida a cada hito */
+.timeline__node::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--node-accent, var(--purple)) 50%, transparent);
+  opacity: 0.7;
+  animation: node-pulse 2.8s ease-out infinite;
+}
+@keyframes node-pulse {
+  0% { transform: scale(0.8); opacity: 0.7; }
+  70% { transform: scale(1.5); opacity: 0; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .timeline__node::before { animation: none; }
+}
 
+/* La tarjeta ahora es una SpotlightCard: el padding aplica al contenido. */
 .timeline__card { padding: clamp(18px, 2.5vw, 26px); }
+.timeline__card .timeline__desc:last-child,
+.timeline__card .timeline__tags:last-child { margin-bottom: 0; }
 
 .timeline__top {
   display: flex;

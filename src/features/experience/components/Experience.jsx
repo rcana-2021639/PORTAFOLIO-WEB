@@ -3,14 +3,15 @@ import { motion, useScroll, useSpring } from 'framer-motion';
 import { BookOpen, Briefcase, GraduationCap, MapPin } from 'lucide-react';
 import SectionHeading from '../../../shared/components/SectionHeading';
 import Reveal from '../../../shared/components/Reveal';
+import SpotlightCard from '../../../shared/components/SpotlightCard';
 import Certificates from './Certificates';
 import { timeline } from '../../../shared/data/experience';
 import './Experience.css';
 
 const typeMeta = {
-  education: { icon: GraduationCap, label: 'Educación' },
-  experience: { icon: Briefcase, label: 'Experiencia' },
-  course: { icon: BookOpen, label: 'Curso' },
+  education: { icon: GraduationCap, label: 'Educación', accent: 'var(--neon-cyan)' },
+  experience: { icon: Briefcase, label: 'Experiencia', accent: 'var(--neon-pink)' },
+  course: { icon: BookOpen, label: 'Curso', accent: 'var(--purple)' },
 };
 
 const Experience = () => {
@@ -46,6 +47,7 @@ const Experience = () => {
               <Reveal as="li" key={item.id} direction="up" delay={i * 0.06} className="timeline__item">
                 <motion.span
                   className="timeline__node"
+                  style={{ '--node-accent': meta.accent }}
                   initial={{ scale: 0.3, opacity: 0 }}
                   whileInView={{ scale: 1, opacity: 1 }}
                   viewport={{ once: true, amount: 0.8 }}
@@ -54,7 +56,7 @@ const Experience = () => {
                   <Icon size={16} />
                 </motion.span>
 
-                <div className="timeline__card neon-card">
+                <SpotlightCard className="timeline__card" accent={meta.accent}>
                   <div className="timeline__top">
                     <span className={`timeline__tag is-${item.type}`}>{meta.label}</span>
                     <span className="timeline__period mono">{item.period}</span>
@@ -71,7 +73,7 @@ const Experience = () => {
                       <span key={tag} className="chip">{tag}</span>
                     ))}
                   </div>
-                </div>
+                </SpotlightCard>
               </Reveal>
             );
           })}

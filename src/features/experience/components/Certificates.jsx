@@ -1,7 +1,15 @@
-import { useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import {
+  AnimatePresence,
+  motion,
+  useMotionTemplate,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from 'framer-motion';
 import { Award, X, ZoomIn } from 'lucide-react';
 import Reveal from '../../../shared/components/Reveal';
+import { useReducedMotion } from '../../../shared/hooks/useReducedMotion';
 import { certificates } from '../../../shared/data/experience';
 import './Certificates.css';
 
@@ -13,6 +21,93 @@ const handleImgError = (e) => {
     e.currentTarget.dataset.fallback = '1';
     e.currentTarget.src = PLACEHOLDER;
   }
+};
+
+const tiltSpring = { stiffness: 200, damping: 20, mass: 0.4 };
+
+// Tarjeta de certificado con interacción avanzada de cursor:
+// inclinación 3D, brillo holográfico que sigue al puntero y parallax del sello.
+const CertCard = ({ cert, index, onOpen }) => {
+  const reduced = useReducedMotion();
+  const ref = useRef(null);
+
+  const px = useMotionValue(0.5);
+  const py = useMotionValue(0.5);
+  const active = useMotionValue(0);
+
+  const rotateX = useSpring(useTransform(py, [0, 1], [7, -7]), tiltSpring);
+  const rotateY = useSpring(useTransform(px, [0, 1], [-7, 7]), tiltSpring);
+  const glareX = useTransform(px, (v) => `${v * 100}%`);
+  const glareY = useTransform(py, (v) => `${v * 100}%`);
+  const glare = useMotionTemplate`radial-gradient(200px circle at ${glareX} ${glareY}, rgba(255,255,255,0.32), transparent 62%)`;
+  const sheen = useMotionTemplate`linear-gradient(105deg, transparent 40%, color-mix(in srgb, var(--section-accent, var(--purple)) 40%, transparent) ${glareX}, transparent 60%)`;
+  const glareOpacity = useSpring(active, { stiffness: 200, damping: 26 });
+
+  const onMove = (e) => {
+    if (reduced || !ref.current) return;
+    const r = ref.current.getBoundingClientRect();
+    px.set((e.clientX - r.left) / r.width);
+    py.set((e.clientY - r.top) / r.height);
+  };
+  const onEnter = () => !reduced && active.set(1);
+  const onLeave = () => {
+    active.set(0);
+    px.set(0.5);
+    py.set(0.5);
+  };
+
+  return (
+    <Reveal as="div" direction="up" delay={index * 0.05} className="certs__cardwrap">
+      <motion.button
+        ref={ref}
+        type="button"
+        className="certs__card"
+        onClick={() => onOpen(cert)}
+        onMouseMove={onMove}
+        onMouseEnter={onEnter}
+        onMouseLeave={onLeave}
+        style={
+          reduced
+            ? undefined
+            : { rotateX, rotateY, transformPerspective: 800, transformStyle: 'preserve-3d' }
+        }
+        whileHover={reduced ? undefined : { y: -6 }}
+        transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+        aria-label={`Ver certificado: ${cert.title}`}
+      >
+        <span className="certs__thumb">
+          <motion.img
+            src={cert.image}
+            onError={handleImgError}
+            loading="lazy"
+            alt={`Certificado: ${cert.title}`}
+            style={reduced ? undefined : { translateZ: 26 }}
+          />
+          {/* Barrido diagonal con el acento de sección */}
+          <motion.span
+            className="certs__sheen"
+            aria-hidden="true"
+            style={reduced ? undefined : { background: sheen, opacity: glareOpacity }}
+          />
+          {/* Brillo holográfico que sigue al cursor */}
+          <motion.span
+            className="certs__glare"
+            aria-hidden="true"
+            style={reduced ? undefined : { background: glare, opacity: glareOpacity }}
+          />
+          <span className="certs__zoom">
+            <ZoomIn size={18} />
+          </span>
+        </span>
+        <span className="certs__meta">
+          <span className="certs__issuer mono">
+            {cert.issuer} · {cert.year}
+          </span>
+          <span className="certs__title">{cert.title}</span>
+        </span>
+      </motion.button>
+    </Reveal>
+  );
 };
 
 const Certificates = () => {
@@ -46,29 +141,7 @@ const Certificates = () => {
 
       <div className="certs__grid">
         {certificates.map((c, i) => (
-          <Reveal
-            as="button"
-            type="button"
-            key={c.id}
-            direction="up"
-            delay={i * 0.05}
-            className="certs__card"
-            onClick={() => setActive(c)}
-            aria-label={`Ver certificado: ${c.title}`}
-          >
-            <span className="certs__thumb">
-              <img src={c.image} onError={handleImgError} loading="lazy" alt={`Certificado: ${c.title}`} />
-              <span className="certs__zoom">
-                <ZoomIn size={18} />
-              </span>
-            </span>
-            <span className="certs__meta">
-              <span className="certs__issuer mono">
-                {c.issuer} · {c.year}
-              </span>
-              <span className="certs__title">{c.title}</span>
-            </span>
-          </Reveal>
+          <CertCard key={c.id} cert={c} index={i} onOpen={setActive} />
         ))}
       </div>
 
