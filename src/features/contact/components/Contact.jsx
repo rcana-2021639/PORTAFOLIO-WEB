@@ -9,13 +9,20 @@ import { socials, contactInfo } from '../../../shared/data/socials';
 import { getIcon } from '../../../shared/components/iconMap';
 import './Contact.css';
 
+const buildGmailComposeUrl = ({ to, subject, body }) =>
+  `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}&su=${encodeURIComponent(
+    subject
+  )}&body=${encodeURIComponent(body)}`;
+
 const handleQuickMail = (value) => {
   const email = (value || '').trim();
-  const subject = encodeURIComponent('Contacto desde el portafolio');
-  const body = encodeURIComponent(
-    email ? `¡Hola Rhandy! Me gustaría contactarte. Mi correo es ${email}.` : ''
-  );
-  window.location.href = `mailto:${contactInfo.email}?subject=${subject}&body=${body}`;
+  const body = email ? `¡Hola Rhandy! Me gustaría contactarte. Mi correo es ${email}.` : '';
+  const url = buildGmailComposeUrl({
+    to: contactInfo.email,
+    subject: 'Contacto desde el portafolio',
+    body,
+  });
+  window.open(url, '_blank', 'noopener,noreferrer');
 };
 
 const Contact = () => (
@@ -42,7 +49,14 @@ const Contact = () => (
 
       <Reveal direction="up" delay={0.18} className="contact__cta">
         <MagneticButton>
-          <NeonButton href={`mailto:${contactInfo.email}`} icon={Send}>
+          <NeonButton
+            href={buildGmailComposeUrl({
+              to: contactInfo.email,
+              subject: 'Contacto desde el portafolio',
+              body: '¡Hola Rhandy! Me gustaría contactarte.',
+            })}
+            icon={Send}
+          >
             Enviar un mensaje
           </NeonButton>
         </MagneticButton>
@@ -57,10 +71,10 @@ const Contact = () => (
           placeholder="tu@correo.com"
           buttonText="Escríbeme"
           width="100%"
-          bend={26}
+          bend={8}
           height={62}
           buttonColor="#d946ef"
-          backgroundColor="#160d2c"
+          backgroundColor="#1f1436"
           borderColor="#392e4e"
           onSubmit={handleQuickMail}
         />

@@ -19,8 +19,8 @@ export const projects = [
       'Consumo de microservicios y manejo de estado',
     ],
     tags: ['React', 'Vite', 'Framer Motion', 'Zustand', 'WebGL'],
-    image: '/images/project-banco.svg',
-    repo: 'https://github.com/rcana-2021639', // TODO: enlace al repo real
+    image: '/images/project-banco.jpeg',
+    repo: 'https://github.com/rcana-2021639/grupo6-sistema-bancario-Frontend', // TODO: enlace al repo real
     demo: '', // TODO: opcional, URL del despliegue
   },
   {
@@ -38,7 +38,7 @@ export const projects = [
     ],
     tags: ['React Native', 'Expo', 'Zustand', 'JavaScript'],
     image: '/images/project-mobile.svg',
-    repo: 'https://github.com/rcana-2021639', // TODO: enlace al repo real
+    repo: 'https://github.com/rcana-2021639/grupo6-sistema-bancario-Frontend', // TODO: enlace al repo real
     demo: '',
   },
   {
@@ -56,7 +56,7 @@ export const projects = [
     ],
     tags: ['Node.js', 'Express', 'JWT', 'MongoDB'],
     image: '/images/project-api.svg',
-    repo: 'https://github.com/rcana-2021639', // TODO: enlace al repo real
+    repo: 'https://github.com/rcana-2021639/grupo6-sistema-bancario-Frontend', // TODO: enlace al repo real
     demo: '',
   },
   {
@@ -73,8 +73,8 @@ export const projects = [
       'Rendimiento y accesibilidad (reduced-motion)',
     ],
     tags: ['React', 'GSAP', 'OGL / WebGL', 'CSS'],
-    image: '/images/project-portfolio.svg',
-    repo: 'https://github.com/rcana-2021639', // TODO: enlace al repo real
+    image: '/images/project-portfolio.jpeg',
+    repo: 'https://github.com/rcana-2021639/PORTAFOLIO-WEB', // TODO: enlace al repo real
     demo: '',
   },
 ];

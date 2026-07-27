@@ -8,7 +8,7 @@ export const socials = [
     id: 'linkedin',
     label: 'LinkedIn',
     handle: '/in/rhandy-cana',
-    url: 'https://www.linkedin.com/', // TODO: tu perfil real
+    url: 'https://gt.linkedin.com/', // TODO: tu perfil real
     icon: 'Linkedin',
     accent: '#6366f1',
   },
@@ -24,7 +24,7 @@ export const socials = [
     id: 'computrabajo',
     label: 'CompuTrabajo',
     handle: 'Rhandy Caná',
-    url: 'https://www.computrabajo.com.gt/', // TODO: tu perfil real
+    url: 'https://candidato.gt.computrabajo.com/candidate/cv/edit/', // TODO: tu perfil real
     icon: 'Briefcase',
     accent: '#d946ef',
   },
